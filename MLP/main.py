@@ -46,7 +46,7 @@ print(spam.head())
 print(pd.value_counts(spam['label']))
 X = spam.iloc[:, 0:57].values
 y = spam['label'].values
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=123)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=1)
 scales = MinMaxScaler(feature_range=(0, 1))
 X_train_s = scales.fit_transform(X_train)
 X_test_s = scales.transform(X_test)
@@ -103,3 +103,8 @@ for epoch in range(15):
                     canvas1.draw_plot(history1["train_loss"])
                     canvas1.draw_plot(history1["test_accuracy"])
 canvas1.save("t1.png")
+
+_, _, output = mlpc(X_test_nots)
+_, pre_lab = torch.max(output, 1)
+test_accuracy = accuracy_score(y_test_t, pre_lab)
+print("test_accuracy: ", test_accuracy)
